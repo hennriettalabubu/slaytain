@@ -1,0 +1,71 @@
+# dhi-aio-studio portal
+# Each sub-app owns its own hostname via Cloudflare Tunnel. The portal just
+# lands users and redirects any legacy subpath hits to the dedicated host.
+#
+# Env (set by onstart.sh): CADDY_PORT, JUPYTER_PORT, TENSORBOARD_PORT
+
+{
+	auto_https off
+	admin off
+}
+
+:{$CADDY_PORT:8080} {
+	encode zstd gzip
+
+	# Redirect any legacy subpath (and the paths Jupyter emits internally) to
+	# the dedicated jupyter.* host. 302 so browsers don't cache the mapping.
+	# Narrow matchers — /api/*, /static/*, /tree are too generic for a bare
+	# path match (they'd eat ai-toolkit's own API/static), so scope them to
+	# a Jupyter-specific prefix set.
+	@jupyterPaths path /jupyter* /lab* /nbclassic/* /files/* /terminals/*
+	handle @jupyterPaths {
+		redir https://jupyter.gwingz.com{uri} 302
+	}
+
+	# ai-toolkit lives on its own hostname — provide a redirect for discoverability.
+	handle /kit* {
+		redir https://kit.gwingz.com{uri} 302
+	}
+
+	# TensorBoard still proxies locally (no public hostname for it yet).
+	handle_path /tensorboard/* {
+		reverse_proxy 127.0.0.1:{$TENSORBOARD_PORT:6006}
+	}
+	handle /tensorboard {
+		redir /tensorboard/ 302
+	}
+
+	# Landing page
+	handle / {
+		header Content-Type "text/html; charset=utf-8"
+		respond `<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><title>dhi-aio-studio</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+ body{font:16px/1.5 system-ui,sans-serif;max-width:760px;margin:3rem auto;padding:0 1rem;background:#0b0d10;color:#e6edf3}
+ a{color:#58a6ff;text-decoration:none} a:hover{text-decoration:underline}
+ .card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1rem 1.25rem;margin:.75rem 0}
+ code{background:#161b22;padding:.1rem .35rem;border-radius:4px}
+ h1{margin-top:0}
+ small{opacity:.7}
+</style></head><body>
+<h1>dhi-aio-studio</h1>
+<p>GPU-ready all-in-one studio. User: <code>nobbby</code>.</p>
+<div class="card"><strong><a href="https://jupyter.gwingz.com/">JupyterLab</a></strong><br><small>jupyter.gwingz.com</small></div>
+<div class="card"><strong><a href="https://kit.gwingz.com/">AI Toolkit (Ostris)</a></strong><br><small>kit.gwingz.com</small></div>
+<div class="card"><strong><a href="/tensorboard/">TensorBoard</a></strong><br><small>portal-local when a run is active</small></div>
+<div class="card">SSH: <code>ssh -p 2222 nobbby@&lt;host&gt;</code> &mdash; password or key auth<br><small>Port 2222 assumes the default host-side <code>-p 2222:22</code> mapping; adjust if yours differs.</small></div>
+</body></html>
+` 200
+	}
+
+	handle {
+		respond "not found" 404
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

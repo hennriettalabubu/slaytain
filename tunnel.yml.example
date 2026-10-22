@@ -1,0 +1,20 @@
+# cloudflared tunnel config example
+# Mount this at /etc/cloudflared/config.yml and set CF_TUNNEL_CONFIG=/etc/cloudflared/config.yml
+# Or use the simpler path: just set CF_TUNNEL_TOKEN=<token-from-dash> and skip this file.
+
+tunnel: REPLACE_WITH_TUNNEL_UUID
+credentials-file: /etc/cloudflared/REPLACE_WITH_TUNNEL_UUID.json
+
+ingress:
+  - hostname: studio.example.com
+    service: http://localhost:8080
+  - hostname: jupyter.example.com
+    service: http://localhost:8888
+  - hostname: kit.example.com
+    service: http://localhost:8675
+  # WARNING: TensorBoard has NO authentication by default. Only expose publicly
+  # if you've put it behind a Cloudflare Access policy, otherwise anyone with
+  # the hostname can read your training runs.
+  - hostname: tensorboard.example.com
+    service: http://localhost:6006
+  - service: http_status:404

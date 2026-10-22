@@ -1,0 +1,8 @@
+{
+  "enabledPlugins": {
+    "vastai-pack@claude-code-plugins-plus": true,
+    "devops-automation-pack@claude-code-plugins-plus": true,
+    "engineer-design-diagram@claude-code-plugins-plus": true,
+    "code-cleanup@claude-code-plugins-plus": true
+  }
+}

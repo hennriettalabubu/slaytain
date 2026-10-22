@@ -1,0 +1,79 @@
+# dhi-aio-studio — minimal Powerlevel10k config (lean style, nerd-font).
+# Run `p10k configure` interactively to replace this with your own.
+
+# Assume a Nerd Font on the HOST terminal; use v3 glyph names.
+typeset -g POWERLEVEL9K_MODE=nerdfont-v3
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+typeset -g POWERLEVEL9K_DISABLE_CONFIGURATION_WIZARD=true
+
+# Two-line prompt, blank line between commands.
+typeset -g POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+typeset -g POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+typeset -g POWERLEVEL9K_RPROMPT_ON_NEWLINE=false
+typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=''
+typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='%F{76}❯%f '
+
+typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
+  context
+  dir
+  vcs
+)
+typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
+  status
+  command_execution_time
+  background_jobs
+  virtualenv
+  time
+)
+
+# Segment separators + framing
+typeset -g POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=''
+typeset -g POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=''
+typeset -g POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR=' '
+typeset -g POWERLEVEL9K_RIGHT_SUBSEGMENT_SEPARATOR=' '
+typeset -g POWERLEVEL9K_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL=''
+typeset -g POWERLEVEL9K_RIGHT_PROMPT_FIRST_SEGMENT_START_SYMBOL=''
+
+# context: only when SSH or root
+typeset -g POWERLEVEL9K_CONTEXT_TEMPLATE='%n@%m'
+typeset -g POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND=180
+typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=203
+typeset -g POWERLEVEL9K_CONTEXT_ALWAYS_SHOW=false
+typeset -g POWERLEVEL9K_CONTEXT_ALWAYS_SHOW_USER=false
+
+# dir
+typeset -g POWERLEVEL9K_DIR_FOREGROUND=39
+typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=103
+typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=39
+typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=true
+typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
+typeset -g POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+
+# git
+typeset -g POWERLEVEL9K_VCS_BACKENDS=(git)
+typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=76
+typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=178
+typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=76
+typeset -g POWERLEVEL9K_VCS_CONFLICTED_FOREGROUND=196
+
+# status (only on error)
+typeset -g POWERLEVEL9K_STATUS_OK=false
+typeset -g POWERLEVEL9K_STATUS_ERROR=true
+typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=196
+
+# command execution time
+typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=2
+typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=101
+typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_PRECISION=1
+
+# virtualenv (python venv indicator)
+typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=37
+typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_PYTHON_VERSION=false
+
+# time
+typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%H:%M:%S}'
+typeset -g POWERLEVEL9K_TIME_FOREGROUND=66
+typeset -g POWERLEVEL9K_TIME_UPDATE_ON_COMMAND=true
+
+# transient prompt — collapses to just the glyph on previous lines
+typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=always

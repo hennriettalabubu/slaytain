@@ -1,0 +1,34 @@
+# Container runtime state (never commit)
+workspace/
+debug-logs/
+*.pid
+*.log
+
+# Local env + secrets
+.env
+.env.*
+!.env.example
+
+# Build artifacts
+*.tar
+*.tar.gz
+*.zst
+
+# Editor / OS cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node (shouldn't appear in repo root but just in case)
+node_modules/
+.next/
+dist/

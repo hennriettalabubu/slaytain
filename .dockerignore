@@ -1,0 +1,11 @@
+.git
+.gitignore
+*.md
+build.ps1
+tunnel.yml
+tunnel.yml.example
+.env
+.env.*
+*.log
+workspace/
+debug-logs/
