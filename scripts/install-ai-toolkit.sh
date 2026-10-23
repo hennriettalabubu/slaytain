@@ -53,11 +53,18 @@ uv pip install --python /opt/venv/bin/python -r requirements.txt
 uv pip install --python /opt/venv/bin/python setuptools==69.5.1
 
 # Accelerators (versions straight from ostris docker/Dockerfile)
+# NOTE: `-U` can drag torch to 2.14 which breaks flash-attn's c10 ABI. Install
+# accelerators first, then re-pin torch 2.13 so the wheels line up again.
 uv pip install --python /opt/venv/bin/python -U \
   torchcodec==0.15.0 \
   natten==0.21.7+torch2130cu130 \
   --find-links https://whl.natten.org \
   https://github.com/mjun0812/flash-attention-prebuild-wheels/releases/download/v0.9.47/flash_attn-2.8.3+cu130torch2.13-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl
+
+# Re-pin torch to the exact ABI the accelerators were compiled against.
+uv pip install --python /opt/venv/bin/python --reinstall \
+  --index-url https://download.pytorch.org/whl/cu130 \
+  torch==2.13.0 torchvision==0.28.0 torchaudio==2.11.0
 
 python - <<'PY'
 import torch, flash_attn, natten, torchcodec

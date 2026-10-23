@@ -48,6 +48,8 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
         rsync unzip zip \
         libffi-dev libssl-dev zlib1g-dev \
         fzf eza \
+        python-is-python3 \
+        ffmpeg \
     ; \
     locale-gen en_US.UTF-8; \
     mkdir -p /run/sshd
