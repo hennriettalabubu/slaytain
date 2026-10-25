@@ -173,10 +173,10 @@ RUN --mount=type=cache,target=/root/.cache/uv,sharing=locked \
 
 # ai-toolkit (ostris) — baked at build time at ${AITOOLKIT_HOME}
 # NOTE: pulls in ~5 GB of torch 2.13 / cu130 wheels + flash-attn + natten + Node 23 + full UI build
-COPY --chmod=0755 scripts/install-ai-toolkit.sh /opt/scripts/install-ai-toolkit.sh
+COPY --chmod=0755 install-ai-toolkit.sh /opt/install-ai-toolkit.sh
 RUN --mount=type=cache,target=/root/.cache/uv,sharing=locked \
     --mount=type=cache,target=/root/.npm,sharing=locked \
-    /opt/scripts/install-ai-toolkit.sh "${AITOOLKIT_HOME}"
+    /opt/install-ai-toolkit.sh "${AITOOLKIT_HOME}"
 
 # Portal (Caddy config) and onstart entrypoint
 RUN mkdir -p /opt/portal-aio /workspace /var/log/aio && \
