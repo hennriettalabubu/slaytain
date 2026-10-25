@@ -1,0 +1,22 @@
+# Force Unix line endings on everything that'll execute on Linux inside the
+# container or on a Linux host — regardless of what Git on Windows wants to do.
+*.sh        text eol=lf
+Dockerfile  text eol=lf
+Caddyfile   text eol=lf
+*.zsh       text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+.gitignore  text eol=lf
+.gitattributes text eol=lf
+
+# PowerShell stays CRLF (Windows-native).
+*.ps1       text eol=crlf
+
+# Markdown / docs can go either way, but LF is standard.
+*.md        text eol=lf
+
+# Binary — hands off.
+*.png binary
+*.jpg binary
+*.gz  binary
+*.zip binary
